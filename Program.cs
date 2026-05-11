@@ -24,7 +24,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Sem isso, o .NET não sabe que existem Controllers na aplicação.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler =
+            System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
 
 

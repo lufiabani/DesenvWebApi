@@ -3,6 +3,7 @@ using System;
 using DesenvWebApi.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DesenvWebApi.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260510235645_AdicionarCategoriaERelacionamento")]
+    partial class AdicionarCategoriaERelacionamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,37 +43,6 @@ namespace DesenvWebApi.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categorias");
-                });
-
-            modelBuilder.Entity("DesenvWebApi.Api.Models.DetalheProduto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Especificacoes")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Garantia")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PaisDeOrigem")
-                        .HasColumnType("text");
-
-                    b.Property<double?>("PesoGramas")
-                        .HasColumnType("double precision");
-
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProdutoId")
-                        .IsUnique();
-
-                    b.ToTable("DetalhesProduto");
                 });
 
             modelBuilder.Entity("DesenvWebApi.Api.Models.Produto", b =>
@@ -107,17 +79,6 @@ namespace DesenvWebApi.Api.Migrations
                     b.ToTable("Produtos");
                 });
 
-            modelBuilder.Entity("DesenvWebApi.Api.Models.DetalheProduto", b =>
-                {
-                    b.HasOne("DesenvWebApi.Api.Models.Produto", "Produto")
-                        .WithOne("DetalheProduto")
-                        .HasForeignKey("DesenvWebApi.Api.Models.DetalheProduto", "ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
-                });
-
             modelBuilder.Entity("DesenvWebApi.Api.Models.Produto", b =>
                 {
                     b.HasOne("DesenvWebApi.Api.Models.Categoria", "Categoria")
@@ -132,11 +93,6 @@ namespace DesenvWebApi.Api.Migrations
             modelBuilder.Entity("DesenvWebApi.Api.Models.Categoria", b =>
                 {
                     b.Navigation("Produtos");
-                });
-
-            modelBuilder.Entity("DesenvWebApi.Api.Models.Produto", b =>
-                {
-                    b.Navigation("DetalheProduto");
                 });
 #pragma warning restore 612, 618
         }
